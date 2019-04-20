@@ -1,0 +1,27 @@
+{
+  "name": "timmywil.com",
+  "version": "0.0.1",
+  "description": "Personal blog and website for Timmy Willison",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/timmywil/timmywil.com.git"
+  },
+  "keywords": [
+    "timmywil",
+    "Timmy",
+    "Willison",
+    "personal",
+    "website",
+    "blog"
+  ],
+  "author": "Timmy Willison <4timmywil@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timmywil/timmywil.com/issues"
+  },
+  "homepage": "https://github.com/timmywil/timmywil.com#readme"
+}
