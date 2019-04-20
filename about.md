@@ -1,18 +1,40 @@
 ---
 layout: page
-title: About
+title: About me
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+## Hi!
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+## I'm Timmy Willison,
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+## Lead Front-End Engineer at [Pylon AI][pylon] and
 
+## Team Lead for [jQuery Core][jquery].
 
-[jekyll-organization]: https://github.com/jekyll
+### I love building things and making them work better.
+
+### I am passionate about [open source][timmywil-github].
+
+<br/>
+
+---
+
+## My experience
+
+I started out at a small web firm called **Medium**. We built websites for clients such as Google, Kraft, Mellow Mushroom, and many others.
+
+Then I built the web app and the first version of an iOS app called **Quickcue** in Objective-C, which I crammed to learn quickly. Most of my experience was in HTML, CSS, and JavaScript, but web-based solutions for iOS apps had not yet matured enough to be as performant as native ones. I still appreciate that my team trusted me to handle this, and we did pretty well. Quickcue was [acquired by OpenTable][opentable-acquired] in 2013.
+
+Afterwards, I worked for [OpenTable][opentable] for 3 years. I worked on web apps and engineered ways to improve front-end performance across the board.
+
+#### I joined [Pylon AI][pylon] in 2016.
+
+_The code for this site available on [GitHub][timmywil-github] and is built with [jekyll][jekyll-github]._
+
+[pylon]: https://pylon.com/
+[jquery]: https://jquery.com
+[opentable-acquired]: http://press.opentable.com/news-releases/news-release-details/opentable-acquires-quickcue/
+[opentable]: https://www.opentable.com
+[timmywil-github]: https://github.com/timmywil/timmywil.github.io
+[jekyll-github]: https://github.com/jekyll/jekyll

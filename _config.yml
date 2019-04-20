@@ -15,10 +15,13 @@
 # in the templates via {{ site.myvariable }}.
 title: Approval in the mail
 email: 4timmywil@gmail.com
+author: Timmy Willison
 baseurl: '' # the subpath of your site, e.g. /blog
 url: 'https://timmywil.com' # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: timmywil
 github_username: timmywil
+linkedin_username: timmywil
+rss: RSS
 
 # Build settings
 markdown: kramdown
