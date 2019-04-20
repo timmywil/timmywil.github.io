@@ -14,7 +14,7 @@ permalink: /about/
 
 ### I love building things and making them work better.
 
-### I am passionate about [open source][timmywil-github].
+### I believe in [open source][timmywil-github] and a free and open internet.
 
 <br/>
 
@@ -30,11 +30,14 @@ Afterwards, I worked for [OpenTable][opentable] for 3 years. I worked on web app
 
 #### I joined [Pylon AI][pylon] in 2016.
 
-_The code for this site available on [GitHub][timmywil-github] and is built with [jekyll][jekyll-github]._
+#### Throughout my career, I've helped build and maintain [jQuery Core][jquery] and contributed to [many other open source projects][timmywil-github].
+
+_The code for this site is available on [GitHub][timmywil-website-github] and is built with [jekyll][jekyll-github]._
 
 [pylon]: https://pylon.com/
 [jquery]: https://jquery.com
 [opentable-acquired]: http://press.opentable.com/news-releases/news-release-details/opentable-acquires-quickcue/
 [opentable]: https://www.opentable.com
-[timmywil-github]: https://github.com/timmywil/timmywil.github.io
+[timmywil-github]: https://github.com/timmywil
+[timmywil-website-github]: https://github.com/timmywil/timmywil.github.io
 [jekyll-github]: https://github.com/jekyll/jekyll
