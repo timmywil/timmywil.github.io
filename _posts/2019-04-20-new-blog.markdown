@@ -1,0 +1,19 @@
+---
+layout: post
+title: 'New Blog!'
+date: 2019-04-20 17:15:00 -0400
+categories: blog
+tags: jekyll medium
+---
+
+I finally got around to creating a new blog. I'm excited about this because I have a lot of ideas for posts.
+
+This blog will be mostly tech-related. I might write about something cool I did or something cool I found. Or I might just vent about Game of Thrones (no spoilers).
+
+I used to blog over on the [Medium platform][medium], but I'm not really a fan anymore. I'll leave the old posts there for posterity, but I'm going to start writing posts here.
+
+Besides, I'll want to share things that would normally require embedding on Medium. With a static site, the code can live in the same GitHub repo.
+
+Anyway, I'm looking forward to getting started. Next post soon.
+
+[medium]: https://medium.com/@timmywil

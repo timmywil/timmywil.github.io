@@ -6,7 +6,7 @@
   "scripts": {
     "commit": "git-cz",
     "release": "semantic-release",
-    "start": "bundle exec jekyll serve"
+    "start": "bundle exec jekyll serve --drafts"
   },
   "repository": {
     "type": "git",
