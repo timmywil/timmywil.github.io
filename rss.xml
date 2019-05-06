@@ -1,4 +1,131 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Write more, build more]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Sun, 05 May 2019 18:02:13 GMT</lastBuildDate><item><title><![CDATA[New Blog!]]></title><description><![CDATA[I finally got around to creating a new blog! It took a couple iterations...]]></description><link>https://timmywil.com//blog/new-blog/</link><guid isPermaLink="false">https://timmywil.com//blog/new-blog/</guid><pubDate>Mon, 22 Apr 2019 01:06:29 GMT</pubDate><content:encoded>&lt;p&gt;I finally got around to creating a new blog!&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Write more, build more]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Mon, 06 May 2019 13:46:08 GMT</lastBuildDate><item><title><![CDATA[Automate React Native Deployment - Part 1]]></title><description><![CDATA[I’m a fan of React Native. It allows me to build native mobile apps using JavaScript. That’s no small feat, but no tool is perfect. React…]]></description><link>https://timmywil.com//blog/Automate-React-Native-Deployment-Part-1/</link><guid isPermaLink="false">https://timmywil.com//blog/Automate-React-Native-Deployment-Part-1/</guid><pubDate>Tue, 07 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I’m a fan of React Native. It allows me to build native mobile apps using JavaScript. That’s no small feat, but no tool is perfect. React Native has its frustrating quirks and time-consuming challenges, as any library as heavy as React Native might. Automating deployment has been one of those challenges. I’ve fiddled with deployment processes across several projects over the years and I was never really satisfied with the results. It took many iterations: adding new tools, removing stale ones, using old tools in new ways, but I recently realized that I reached my goal.&lt;/p&gt;
+&lt;p&gt;I should point out that I didn’t create some silver bullet to the deployment problem. I am simply using existing tools in intended, documented ways. Look at any individual piece, and there’s nothing original. What I believe is special, and what I am excited to share, is the way the tools are combined to form a seamless, single-command, automated deployment process from commit to app store.&lt;/p&gt;
+&lt;p&gt;Part 1 will establish some project assumptions that are required for this process to work, and then walk through the first half of the setup. This is meant to be an example of what is possible. Some of these tools have alternatives that would be relatively easy to swap–such as Circle CI with pretty much any other CI–but I’m going to stick with what I used and maybe you can take it from there.&lt;/p&gt;
+&lt;h2&gt;Bird’s eye view&lt;/h2&gt;
+&lt;p&gt;When this series is complete, you should have a working deployment flow that runs with one command: &lt;code&gt;yarn release&lt;/code&gt; (or &lt;code&gt;npm run release&lt;/code&gt;). Here’s an overview of the whole process:&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/609085edace92364601c3dae405e83be/d02d5/rn-deployment-diagram.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 170.3056768558952%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;React Native Automated Deployment&quot;
+        title=&quot;&quot;
+        src=&quot;/static/609085edace92364601c3dae405e83be/b9e4f/rn-deployment-diagram.png&quot;
+        srcset=&quot;/static/609085edace92364601c3dae405e83be/cf440/rn-deployment-diagram.png 148w,
+/static/609085edace92364601c3dae405e83be/d2d38/rn-deployment-diagram.png 295w,
+/static/609085edace92364601c3dae405e83be/b9e4f/rn-deployment-diagram.png 590w,
+/static/609085edace92364601c3dae405e83be/f9b6a/rn-deployment-diagram.png 885w,
+/static/609085edace92364601c3dae405e83be/2d849/rn-deployment-diagram.png 1180w,
+/static/609085edace92364601c3dae405e83be/d02d5/rn-deployment-diagram.png 1374w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note: e2e testing is not part of this flow. It assumes the previous commit has already passed all tests. Setting up testing for supported devices in CI is another beast. I may share that in a later post.&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;You know what happens when you assume&lt;/h3&gt;
+&lt;p&gt;This workflow assumes some things about the project. It assumes you have a project structure similar to mine. That is, similar to the one generated by &lt;code&gt;react-native init&lt;/code&gt;. Most of this should work in an expo project, but I haven’t used expo that much so I can’t say for sure.&lt;/p&gt;
+&lt;h4&gt;Commit message guidelines&lt;/h4&gt;
+&lt;p&gt;The critical assumption is that all commits for the release follow some commit message guidelines. This is necessary for determining a proper &lt;a href=&quot;https://semver.org/&quot;&gt;semantic version&lt;/a&gt; and generating release notes from commit messages.&lt;/p&gt;
+&lt;p&gt;You’re not tied to the &lt;a href=&quot;https://www.conventionalcommits.org&quot;&gt;format I use&lt;/a&gt;, but each commit should at least have a scope, a subject, and some keyword to denote a breaking change. There are several possible presets. Have a look at &lt;a href=&quot;https://github.com/semantic-release/commit-analyzer#configuration&quot;&gt;@semantic-release/commit-analyzer&lt;/a&gt; for the possible configs. I also recommend checking out &lt;a href=&quot;https://github.com/conventional-changelog/commitlint#readme&quot;&gt;commitlint&lt;/a&gt; and &lt;a href=&quot;https://github.com/typicode/husky#readme&quot;&gt;husky&lt;/a&gt; for enforcing commit message guidelines on commit. &lt;a href=&quot;https://commitizen.github.io/cz-cli/&quot;&gt;commitizen&lt;/a&gt; is nice if you’d like a prompt to use when committing. The config I use for this blog is available on my &lt;a href=&quot;https://github.com/timmywil/timmywil.github.io&quot;&gt;GitHub&lt;/a&gt;. Check out the &lt;a href=&quot;https://github.com/timmywil/timmywil.github.io/blob/decfa4eceab3a840ecd3969ca346c65ecf5ef7a6/package.json#L95&quot;&gt;package.json&lt;/a&gt; and &lt;a href=&quot;https://github.com/timmywil/timmywil.github.io/blob/decfa4eceab3a840ecd3969ca346c65ecf5ef7a6/commitlint.config.js&quot;&gt;commitlint.config.js&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;[TypeScript]&lt;/h4&gt;
+&lt;p&gt;It’s not necessary that you use TypeScript, but a few of my code examples will use the TypeScript compiler and &lt;a href=&quot;https://github.com/palantir/tslint&quot;&gt;tslint&lt;/a&gt;. You could swap those with tools such as &lt;a href=&quot;https://eslint.org/&quot;&gt;eslint&lt;/a&gt;. &lt;a href=&quot;https://github.com/prettier/prettier&quot;&gt;prettier&lt;/a&gt; works with both TypeScript and Vanilla JavaScript.&lt;/p&gt;
+&lt;h2&gt;Dependencies for part 1&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;yarn&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; --dev \
+semantic-release \
+@semantic-release/git \
+react-native-version&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Setting up semantic-release&lt;/h2&gt;
+&lt;p&gt;Add this script to your &lt;code&gt;package.json&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;release&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;semantic-release&quot;&lt;/span&gt;
+  ...
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Next, double check &lt;a href=&quot;https://github.com/semantic-release/git#git-authentication&quot;&gt;git authentication&lt;/a&gt;, which involves setting some environment variables. Then create a GitHub token for semantic-release-bot. The &lt;a href=&quot;https://github.com/semantic-release/github#github-authentication&quot;&gt;@semantic-release/github docs&lt;/a&gt; explain how to do this. Specifically, follow &lt;a href=&quot;https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line&quot;&gt;this guide&lt;/a&gt; and set &lt;code&gt;GH_TOKEN&lt;/code&gt; in your environment. The token will allow the semantic-release-bot to use the GitHub API to push release notes.&lt;/p&gt;
+&lt;p&gt;Here’s an example config to use for semantic-release.
+Replace &lt;code&gt;$PROJECTNAME&lt;/code&gt; with your own project name.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;release&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Release from this branch&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;branch&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;master&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// This isn&apos;t an npm package&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;npmPublish&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// We&apos;re initiating the release from&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// our local machine. You could set this&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// to true and set up releasing on every push&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// to the release branch, but I like&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// pulling the trigger myself.&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;ci&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;plugins&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Analyzes commit messages and&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// determines the version&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;@semantic-release/commit-analyzer&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Builds release notes from commit messages&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;@semantic-release/release-notes-generator&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Updates the version&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;@semantic-release/npm&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// Commits, tags, and pushes&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;@semantic-release/git&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;assets&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&quot;ios/$PROJECTNAME*/Info.plist&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&quot;ios/$PROJECTNAME.xcodeproj/project.pbxproj&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&quot;android/app/build.gradle&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token string&quot;&gt;&quot;package.json&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;chore(release): ${nextRelease.version} \n\n${nextRelease.notes}&quot;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// Creates the release on GitHub&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// and posts release notes&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;@semantic-release/github&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Updating the version&lt;/h3&gt;
+&lt;p&gt;There’s an important package that works in conjunction with &lt;code&gt;@semantic-release/npm&lt;/code&gt; that makes releasing to the app store possible. If we stopped here, only the version in &lt;code&gt;package.json&lt;/code&gt; would get updated, resulting in errors later on CI when deploying to the app stores. &lt;a href=&quot;https://github.com/stovmascript/react-native-version#readme&quot;&gt;react-native-version&lt;/a&gt; is needed to update the versions in android and ios.&lt;sup&gt;&lt;a href=&quot;#notes&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; It piggybacks off of the command used to update the &lt;code&gt;package.json&lt;/code&gt; version and uses the same version to update android and ios files.&lt;/p&gt;
+&lt;p&gt;Make sure it’s installed and add this to your &lt;code&gt;package.json&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;postversion&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;react-native-version&quot;&lt;/span&gt;
+  ...
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Side note: you can add &lt;code&gt;pre&lt;/code&gt; or &lt;code&gt;post&lt;/code&gt; to any script and it will run before or after that script. That includes custom scripts, by the way.&lt;/p&gt;
+&lt;h3&gt;The git commit&lt;/h3&gt;
+&lt;p&gt;After updating the version, &lt;code&gt;@semantic-release/git&lt;/code&gt; is responsible for staging the changed assets, committing those assests, tagging the commit, and pushing it to GitHub. But you have to be explicit about which files to add. The files listed above are all of the files that &lt;code&gt;@semantic-release/npm&lt;/code&gt; and &lt;code&gt;react-native-version&lt;/code&gt; changes.&lt;/p&gt;
+&lt;p&gt;The message is mostly default with one important difference. It removes &lt;code&gt;[skip ci]&lt;/code&gt; from the end of the message. We do not want to skip CI.&lt;/p&gt;
+&lt;h3&gt;Signing commits with GPG&lt;/h3&gt;
+&lt;p&gt;If you already have GPG set up for signing commits &lt;sup&gt;&lt;a href=&quot;#notes&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, you may also want to enable signing commits and tags made by semantic-release. This is easy to do in our case since we’re committing from our local machine. The fix is to commit using your own name and email rather than than the default name and email used for the bot. &lt;sup&gt;&lt;a href=&quot;#notes&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; Make sure these environment variables are set to the ones matching your GPG signature:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;GIT_AUTHOR_NAME
+GIT_AUTHOR_EMAIL
+GIT_COMMITTER_NAME
+GIT_COMMITTER_EMAIL&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If you opted to run semantic-release in CI, the &lt;a href=&quot;https://github.com/semantic-release/git#gpg-signature&quot;&gt;&lt;code&gt;@semantic-release/git&lt;/code&gt; docs&lt;/a&gt; explain how to sign commits on Travis.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Try running &lt;code&gt;yarn release -d&lt;/code&gt; or &lt;code&gt;npm run release -- -d&lt;/code&gt; to do a dry run of what you have so far. If everything is set up correctly, you’re halfway to single-command deployment. In the next part, we’ll discuss setting up fastlane and Circle CI, which will take care of linting, building, and actually deploying to Testflight and Google Play, as well as posting a message to Slack.&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;notes&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Notes&lt;/summary&gt;
+&lt;style&gt;small, small code { font-size: 80%; line-height: 1; }&lt;/style&gt;
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;1&lt;/strong&gt;: If you’ve used fastlane before, you may have used that to update versions in iOS and Android and are wondering why this is better. First, this does more than existing fastlane plugins. For example, while it’s easy to increment the version code in Android using a fastlane plugin, it’s not so easy to update the version name at the same time, which should really match the version we use in &lt;code&gt;package.json&lt;/code&gt;. But the main reason to use &lt;code&gt;react-native-version&lt;/code&gt; is using fastlane in CI is too little too late. If we tried to update versions when deploying to the app stores, we’d have to jump through several hoops to get those changes included in our git tag. We want a clean, atomic release, and git tags are perfect for that. fastlane would have to amend the commit and tag. Overall, it’s simpler to do it when updating the &lt;code&gt;package.json&lt;/code&gt; version. You may also be wondering why we’re using fastlane on CI instead of our local machine. We’ll get to that in part 2.&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;2&lt;/strong&gt;: A while back I wrote &lt;a href=&quot;https://medium.com/@timmywil/sign-your-commits-on-github-with-gpg-566f07762a43&quot;&gt;a guide&lt;/a&gt; on signing commits with GPG, including saving the passphrase so you don’t have to enter it every commit.&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;3&lt;/strong&gt;: I ran into an issue with this. I had the environment variables defined in my &lt;code&gt;.bash_profile&lt;/code&gt;, but wasn’t using &lt;code&gt;export&lt;/code&gt; (e.g. &lt;code&gt;export GIT_AUTHOR_EMAIL=$EMAIL&lt;/code&gt; rather than &lt;code&gt;GIT_AUTHOR_EMAIL=$EMAIL&lt;/code&gt;). The reason for &lt;code&gt;export&lt;/code&gt; is to make the variable available to other processes, like &lt;code&gt;node&lt;/code&gt;. Make sure to use &lt;code&gt;export&lt;/code&gt;.&lt;/small&gt;&lt;/p&gt;
+&lt;/details&gt;</content:encoded></item><item><title><![CDATA[New Blog!]]></title><description><![CDATA[I finally got around to creating a new blog! It took a couple iterations...]]></description><link>https://timmywil.com//blog/new-blog/</link><guid isPermaLink="false">https://timmywil.com//blog/new-blog/</guid><pubDate>Mon, 22 Apr 2019 01:06:29 GMT</pubDate><content:encoded>&lt;p&gt;I finally got around to creating a new blog!&lt;/p&gt;
 &lt;p&gt;It took a couple iterations. I first played around with &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;jekyll&lt;/a&gt;. It was easy to set up, it had the basic features I needed for blogging, and it was certainly fast enough as a simple static website. But the developor experience was more like what I had 5 years ago.&lt;/p&gt;
 &lt;p&gt;I wanted something a little more fun, so I landed on &lt;a href=&quot;https://www.gatsbyjs.org&quot;&gt;Gatsby&lt;/a&gt;. It may be trendy, but it’s trendy for a reason. I’m still a firm believer in using isomorphism for certain cases, but the JAMstack is the perfect architecture for this. (It’s really just an old architecture with new paint, but it’s still the right choice.)&lt;/p&gt;
 &lt;p&gt;I used to blog over on the &lt;a href=&quot;https://medium.com/@timmywil&quot;&gt;Medium platform&lt;/a&gt;. I’ll leave the old posts there for posterity, but I’m going to start writing posts here instead.&lt;/p&gt;
