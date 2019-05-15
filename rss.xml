@@ -1,4 +1,450 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Write more, build more]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Tue, 07 May 2019 21:00:05 GMT</lastBuildDate><item><title><![CDATA[Automate React Native Deployment - Part 1]]></title><description><![CDATA[I’m a fan of React Native. It allows me to build native mobile apps using JavaScript. That’s no small feat, but no tool is perfect. React…]]></description><link>https://timmywil.com//blog/Automate-React-Native-Deployment-Part-1/</link><guid isPermaLink="false">https://timmywil.com//blog/Automate-React-Native-Deployment-Part-1/</guid><pubDate>Mon, 06 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I’m a fan of React Native. It allows me to build native mobile apps using JavaScript. That’s no small feat, but no tool is perfect. React Native has its frustrating quirks and time-consuming challenges, as any library as heavy as React Native might. Automating deployment has been one of those challenges. I’ve fiddled with deployment processes across several projects over the years and I was never really satisfied with the results. It took many iterations: adding new tools, removing stale ones, using old tools in new ways, but I recently realized that I reached my goal.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Write more, build more]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Wed, 15 May 2019 01:41:31 GMT</lastBuildDate><item><title><![CDATA[Automate React Native Deployment - Part 2]]></title><description><![CDATA[In  part 1 , we discussed how to set up  semantic-release  and  react-native-version . That covers the first part of the deployment flow…]]></description><link>https://timmywil.com//blog/Automate-React-Native-Deployment-Part-2/</link><guid isPermaLink="false">https://timmywil.com//blog/Automate-React-Native-Deployment-Part-2/</guid><pubDate>Wed, 15 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In &lt;a href=&quot;../Automate-React-Native-Deployment-Part-1/&quot;&gt;part 1&lt;/a&gt;, we discussed how to set up &lt;a href=&quot;https://github.com/semantic-release/semantic-release&quot;&gt;semantic-release&lt;/a&gt; and &lt;a href=&quot;https://github.com/stovmascript/react-native-version&quot;&gt;react-native-version&lt;/a&gt;. That covers the first part of the deployment flow from commit to GitHub. In this post, we’ll take a look at the configs for verification and deployment. The CI configs shared in this post are for Circle CI, but the workflow can be applied to any CI. A working example repo can be found &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;here&lt;/a&gt;. Here’s what we’ll cover:&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/ad7af/rn-deployment-diagram-part-2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 79.45900253592562%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsSAAALEgHS3X78AAADCUlEQVQ4y42UWU+TURCG35ayby4gASNoa1vcBUG2ihUNm8iORIkia2kRKIuCiFwIsimLBGSVVU1EURFJvDbRf6D4L4zEWxhnPmviRWM4yZM535xzJvO9M+egEO05RegsKEJHfhG6cjPQUJyEspqr6M6+ivviZzpzY5AVAmC/Cmod22DGlVHhzxCrYdQox2OqxhRZMUF17k+p3nuGGnxnFcRXjUm2Y3QJ9lQJ5A4vPdto5jCjZY4xOsdcBxsfqsci1WKO2gKXqEv/jrqNK9Rz6D3VYZ7sWFDW8nEnhQ+4e2OHZHeKiWcMjImJZQKVXK+jZ6kcQ2/KMLhcyhTj4btr6F0twcCy+BheG3iVhOIo3n7UBRqxkcxx5iQTzpxg4hgPZKAmJhuNpiw0mLJxO+4cbiSfRnZ+DlpiMlHP/kZTJuzxZlzzkQSCoP2rGxw6ahy4OTQcIpui0zjd1ExSrccUM61Y8YkkVXhCObh1gQ/4e8A7TIrD7IazIYdEpxrMUtuel/SANew7vkqdB9+ydrOKjrWYIf6LdN6u18DtDFuz/L7TgMXo/cSV/sKZfhZYM+FLmeNbKEX/5zy0iE7gouyQTBkvpwGTUaFLV1uNZpQaz8N68AhSI0MRbTbDpj2LEmMarMYUVBpSYXXDdgZXcLOK+8zuN01NATPUGrZI7frn1Bq6QHbfKUW/SoyIhkm83deh4b7/aih91uS5SH0nVqk/ao2GTR9pIHqNWna+UHQUDbniF3n7IdZQ+i9R5k4Dsj5fOYt1C0bX7+mfrTeHzK03Bc0o1uY69k38FRj+XoC70n9qT/gGOprY32nAeBRoE3HFkIDLhnBk6rRIiAjGMXMECg/EIs+QqFLW9CYUum5LwxI8+sFZbFhUIz8tqlFmZMPiMvJL5qzdTwvDXbCRi2ZpF08P+Ox1PA67nAYUwavBBfGbp76oFYWO8Nc0aPpAzQGLStPLA8Eapsk1+6cPjU4Dcp9t8qEtLs6WTTWxxbdlq1o9oWDDOK9NbEql89EqVXbjPgxSbiAQ4Czebz8yLN+SwV+iAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Automate React Native Deployment Part 2&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/b9e4f/rn-deployment-diagram-part-2.png&quot;
+        srcset=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/cf440/rn-deployment-diagram-part-2.png 148w,
+/static/b7984e2cf2d593c71355813caad6cfbd/d2d38/rn-deployment-diagram-part-2.png 295w,
+/static/b7984e2cf2d593c71355813caad6cfbd/b9e4f/rn-deployment-diagram-part-2.png 590w,
+/static/b7984e2cf2d593c71355813caad6cfbd/f9b6a/rn-deployment-diagram-part-2.png 885w,
+/static/b7984e2cf2d593c71355813caad6cfbd/2d849/rn-deployment-diagram-part-2.png 1180w,
+/static/b7984e2cf2d593c71355813caad6cfbd/ad7af/rn-deployment-diagram-part-2.png 1183w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Disclaimer: this might be hard to set up from scratch. It will be easier for those with existing projects to migrate to this workflow and make changes where things are different.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Verification&lt;/h2&gt;
+&lt;p&gt;The purpose of this verification step is to run some sanity checks, not to run the full test suite. That should already have been done using the same package on the previous commit. The only changes to the package should be the version number edits, so we run some simple linting checks and perhaps the unit tests.&lt;/p&gt;
+&lt;p&gt;We also want to keep the deployment as reliable and fast as possible. If you have experience running integration or e2e tests for React Native apps in CI, you’ll know that “reliable” and “fast” are usually not words used to describe those types of tests, especially when running tests for both iOS and Android on multiple supported devices.&lt;/p&gt;
+&lt;p&gt;Here’s a sample config for a simple job that installs node dependencies, lints, runs unit tests, and saves the workspace for later use. We’re using &lt;code&gt;yarn&lt;/code&gt; here, but if you prefer &lt;code&gt;npm&lt;/code&gt;, swap &lt;code&gt;yarn.lock&lt;/code&gt; with &lt;code&gt;package-lock.json&lt;/code&gt; and edit &lt;code&gt;yarn&lt;/code&gt; commands to use &lt;code&gt;npm run&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;token key atrule&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;restore_yarn_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;restore_yarn_cache&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# when lock file changes, use increasingly general patterns to restore cache&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v1&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .Branch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;yarn.lock&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v1&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .Branch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v1&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;save_yarn_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;save_yarn_cache&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;save_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; node_modules/
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v1&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .Branch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;yarn.lock&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;verify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;working_directory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/project
+    &lt;span class=&quot;token key atrule&quot;&gt;docker&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; circleci/node&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; checkout
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*restore_yarn_cache&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; yarn &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;frozen&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;lockfile
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*save_yarn_cache&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Lint
+          &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; yarn lint
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Unit tests
+          &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; yarn test&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;unit
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;persist_to_workspace&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/project
+          &lt;span class=&quot;token key atrule&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; node_modules&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;There are lots of unit test setups so I won’t cover that here, but I will share the way I lint TypeScript files. It took a few iterations to keep type checking, linting, and format checking under 10 secs. The answer was to use &lt;a href=&quot;https://github.com/kimmobrunfeldt/concurrently#readme&quot;&gt;concurrently&lt;/a&gt;. The three tasks do not need to run in sequence, so we can save time by running them all &lt;em&gt;concurrently&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;json&quot;&gt;&lt;pre class=&quot;language-json&quot;&gt;&lt;code class=&quot;language-json&quot;&gt;&lt;span class=&quot;token property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;type-check&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;tsc -p tsconfig.json --noEmit&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;tslint&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;tslint -p tsconfig.json -c tslint.json&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;prettier&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;prettier --check \&quot;**/*.tsx\&quot; \&quot;**/*.ts\&quot; \&quot;**/*.js\&quot;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;&quot;lint&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;concurrently \&quot;yarn type-check\&quot; \&quot;yarn tslint\&quot; \&quot;yarn prettier\&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Your &lt;code&gt;.prettierignore&lt;/code&gt; file should include &lt;code&gt;node_modules/**&lt;/code&gt;, &lt;code&gt;ios/**&lt;/code&gt;, &lt;code&gt;android/**&lt;/code&gt;, and any other files you don’t want to check. Also note that this &lt;code&gt;lint&lt;/code&gt; task is not meant to be used on commit. For something like that, you’d only want to check staged files. &lt;a href=&quot;https://github.com/nrwl/precise-commits&quot;&gt;precise-commits&lt;/a&gt; is great for checking &lt;code&gt;prettier&lt;/code&gt; formatting on changed files.&lt;/p&gt;
+&lt;h2&gt;Why fastlane in CI?&lt;/h2&gt;
+&lt;p&gt;Setting up fastlane in CI rather than using it on a local machine has several advantages. One advantage is idempotent builds. The environment in which the apps are built will be the same each time, which provides some peace of mind when combatting build or deployment problems. Once it works, it’s repeatable. That’s not to say it’s not challenging to set up, but it’s worth it.&lt;/p&gt;
+&lt;p&gt;Once upon a time, I deployed from my local machine without running &lt;code&gt;npm install&lt;/code&gt;. I ended up delivering versions of node modules I was using on another branch. Needless to say, I had to release all over again. While there are ways to prevent that on a local machine, deploying from CI guarantees various problems like that don’t happen.&lt;/p&gt;
+&lt;p&gt;Another advantage is that CI can run the deployments to iOS and Android concurrently. If you ran them on a local machine, you’d probably run one, wait for it to finish, and then run the other, which takes more time.&lt;/p&gt;
+&lt;p&gt;Finally, running fastlane in CI allows any team member to deploy the app as long as they have the permissions to create the tag. No additional setup required, such as setting up environment variables or accessing Google Play release credentials that shouldn’t be committed. All of it is in CI environment variables.&lt;/p&gt;
+&lt;h2&gt;Setting up fastlane in Circle CI&lt;/h2&gt;
+&lt;p&gt;fastlane is pretty much the standard for automating beta deployments of iOS and Android apps, so I expect you’ve used it before or at least familiar with it. But even if you’re not, the &lt;a href=&quot;https://docs.fastlane.tools/&quot;&gt;fastlance docs&lt;/a&gt; do a good job of explaining first-time setup. I’ll try to cover what’s relevant to setting up fastlane for Circle CI, but make sure to set up &lt;code&gt;fastlane/&lt;/code&gt; folders in both the &lt;code&gt;ios/&lt;/code&gt; and &lt;code&gt;android/&lt;/code&gt; folders. You can do that by running &lt;code&gt;fastlane init&lt;/code&gt; in each folder. It’s not completely necessary to do it this way, but I find it simpler and much more readable to keep the configs separate. The fastlane configs shared below will assume this directory structure.&lt;/p&gt;
+&lt;h3&gt;fastlane installation&lt;/h3&gt;
+&lt;p&gt;&lt;u&gt;&lt;strong&gt;Do not&lt;/strong&gt;&lt;/u&gt; install fastlane using &lt;code&gt;gem install&lt;/code&gt;. Instead, install fastlane using &lt;a href=&quot;http://gembundler.com/&quot;&gt;bundler&lt;/a&gt;. First, install bundler with &lt;code&gt;gem install bundler -v 1.17.3&lt;/code&gt; (or the latest 1.x version)&lt;sup&gt;&lt;a href=&quot;#notes&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, add the following files to your project, then run &lt;code&gt;bundle update&lt;/code&gt; top-level.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Gemfile&lt;/span&gt;
+source &lt;span class=&quot;token string&quot;&gt;&quot;https://rubygems.org&quot;&lt;/span&gt;
+
+gem &lt;span class=&quot;token string&quot;&gt;&quot;fastlane&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# .bundle/config&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Note the single &apos;.&apos;&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token constant&quot;&gt;BUNDLE_PATH&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;./vendor/bundle&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# ios/.bundle/config&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token constant&quot;&gt;BUNDLE_PATH&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;../vendor/bundle&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# android/.bundle/config&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;
+&lt;span class=&quot;token constant&quot;&gt;BUNDLE_PATH&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;../vendor/bundle&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This setup allows us to have separate fastlane folders for iOS and Android, but still share gems and manage them with a single &lt;code&gt;Gemfile&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Add &lt;code&gt;vendor/&lt;/code&gt; to your &lt;code&gt;.gitignore&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now run &lt;code&gt;bundle exec fastlane init&lt;/code&gt; in both the &lt;code&gt;ios/&lt;/code&gt; and &lt;code&gt;android/&lt;/code&gt; folders. Using the manual setup option will allow you skip some steps and just get the necessary files in place. We’ll be editing the &lt;code&gt;Fastfile&lt;/code&gt; in each folder.&lt;/p&gt;
+&lt;h3&gt;Circle CI environment variables&lt;/h3&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/b25e2/circle-env-vars.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 528px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 57.00757575757576%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABgklEQVQoz3VSiarCMBDM//+dICI+fZS29j5s7ZGmx7ydYKCob2HY7ZHJzO4qrUdkaYK6rpBlGZIkwbZtYDC7el1X5Hlu/ymKwmY+s+aZOI7Rti2UmWeUTYtH12EYBvR9/0Ho4Ps+TqcTLpcLjscjzuczbrcbDoeDBcnVvG6oJ4PWzNjHnpSxLAvGccQ0TdBa2+xqY4wFxSizrKjHCcWg0WpDhg9ljpAOSEoS5veaF6hVDgxCSkz/WHWEVHC/3y3CMEQURbZ31+vV1p7niWWR2rUN+ucTTV1jlYPfgoRUwAs4oP2FfHZQ1eMBLwgRxonNef1A0/Xoxd7wBtpK09ROl9mBit07lRYl/KyAl+YI8gK/SYqfKEEu76uyRPlCVVWYZSO4GrTuVskppAN+V6NMuOwHVIJclLHmKtH6sgPtMlMJ946knaxa0zR4SrscuQwF6GQg/Wsw7TRjeQ3ivYdUQLVuKMxBENhL+N320O6X9EezRwJ8mTSDZM4yCUjMzLXZ//8HbRRSBgOJXb8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;Circle CI Environment Variables&quot;
+        title=&quot;&quot;
+        src=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/b25e2/circle-env-vars.png&quot;
+        srcset=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/cf440/circle-env-vars.png 148w,
+/static/1dbd4a571be76417686ea443f3d1f62c/d2d38/circle-env-vars.png 295w,
+/static/1dbd4a571be76417686ea443f3d1f62c/b25e2/circle-env-vars.png 528w&quot;
+        sizes=&quot;(max-width: 528px) 100vw, 528px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;Here are all of the Circle CI environment variables that we’ll be setting:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Used to upload to the Google Play Store&lt;/span&gt;
+GOOGLE_PLAY_CREDS_JSON
+ANDROID_KEYSTORE
+ANDROID_KEY_ALIAS
+ANDROID_STORE_PASSWORD
+&lt;span class=&quot;token comment&quot;&gt;# fastlane suggests setting these&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# to avoid any issues with building and uploading&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# I think utf8 is the default,&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# but I set them anyway&lt;/span&gt;
+LC_ALL&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;en_US.UTF-8
+LANG&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;en_US.UTF-8
+&lt;span class=&quot;token comment&quot;&gt;# Used to log into to the Apple Developor Portal&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# I use my work&apos;s Apple login&lt;/span&gt;
+FASTLANE_USER
+FASTLANE_PASSWORD
+&lt;span class=&quot;token comment&quot;&gt;# Passphrase you used to encrypt the certs repo&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# You set this when setting up fastlane match&lt;/span&gt;
+MATCH_PASSWORD
+&lt;span class=&quot;token comment&quot;&gt;# Used for slack notifications&lt;/span&gt;
+SLACK_URL&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Android&lt;/h3&gt;
+&lt;p&gt;Follow the docs for &lt;a href=&quot;https://docs.fastlane.tools/getting-started/android/setup/#setting-up-supply&quot;&gt;setting up &lt;code&gt;supply&lt;/code&gt; for fastlane&lt;/a&gt;. That will walk you through the process of generating the Google Play credentials JSON, but rather than committing that file to the repo, we’re going to convert the JSON to a string and add it as the &lt;code&gt;GOOGLE_PLAY_CREDS_JSON&lt;/code&gt; environment variable. Respect &lt;a href=&quot;https://12factor.net/&quot;&gt;12-factor&lt;/a&gt;! :)&lt;/p&gt;
+&lt;p&gt;As a front-end dev, my homebase is the browser console. Open one up and copy the JSON.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; o &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; $&lt;span class=&quot;token constant&quot;&gt;PASTE_JSON_HERE&lt;/span&gt;
+
+&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;o&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That will remove newlines and give you a nice, single-line string for CI (and local environments for testing). Circle CI does not strictly require this, but I’ve found it useful for other CIs and for adding environment variables to my own &lt;code&gt;.bash_profile&lt;/code&gt;. After pasting, add this reference to your Circle &lt;code&gt;config.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;create_google_play_key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;create_google_play_key&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Create Google Play key
+      &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; echo $GOOGLE_PLAY_CREDS_JSON &lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt; android&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;developer&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;creds.json&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will write the JSON to a file so it can be read when fastlane builds. The JSON is not logged to the CI logs. Add &lt;code&gt;android-developer-creds.json&lt;/code&gt; to your &lt;code&gt;.gitignore&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Android code signing&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;ANDROID_KEYSTORE&lt;/code&gt;, &lt;code&gt;ANDROID_KEY_ALIAS&lt;/code&gt;, and &lt;code&gt;ANDROID_STORE_PASSWORD&lt;/code&gt; are used to sign the Android release. I use the same password (&lt;code&gt;ANDROID_STORE_PASSWORD&lt;/code&gt;) for both reading the keystore and signing. Some frown upon this, and you’re free to make them separate passwords and separate environment variables. Consult the &lt;a href=&quot;https://developer.android.com/studio/publish/app-signing&quot;&gt;android developer docs&lt;/a&gt; to set up Android code signing.&lt;/p&gt;
+&lt;p&gt;The important issue for us is the way we store the binary &lt;code&gt;.keystore&lt;/code&gt; file as an environment variable. The best solution I’ve found is a bit fancy: encode the file using base64 and then decode it in Circle CI on-demand.&lt;/p&gt;
+&lt;p&gt;Once you’ve followed the android docs to generate the &lt;code&gt;.keystore&lt;/code&gt; (or &lt;code&gt;.jks&lt;/code&gt;) file, run this command:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ openssl base64 -A -in path/to/release-key.keystore&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Copy this value and paste it in Circle CI environment variables under &lt;code&gt;ANDROID_KEYSTORE&lt;/code&gt;, then add this reference to your Circle config:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;decode_android_key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;decode_android_key&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Decode Android keystore
+      &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; echo $ANDROID_KEYSTORE &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; base64 &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;di &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; tee release&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;key.keystore app/release&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;key.keystore &lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;/dev/null&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will decode the value and add &lt;code&gt;.keystore&lt;/code&gt; files in both the &lt;code&gt;android/&lt;/code&gt; and &lt;code&gt;android/app/&lt;/code&gt; folders, which is necessary later.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;&gt;/dev/null&lt;/code&gt; at the end is important or the keystore will get logged in the CI logs. If it’s a public repo, that would defeat the purpose of all this.&lt;/p&gt;
+&lt;p&gt;Here’s the Circle config for the deploy job:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;create_google_play_key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;create_google_play_key&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Create Google Play key
+      &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; echo $GOOGLE_PLAY_CREDS_JSON &lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt; android&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;developer&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;creds.json
+
+  &lt;span class=&quot;token key atrule&quot;&gt;decode_android_key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;decode_android_key&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Decode Android keystore
+      &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; echo $ANDROID_KEYSTORE &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; base64 &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;di &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; tee release&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;key.keystore app/release&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;key.keystore &lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;/dev/null
+
+  &lt;span class=&quot;token key atrule&quot;&gt;gems_cache_key_android&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;gems_cache_key_android&lt;/span&gt; android&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;bundle&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v1&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;../Gemfile.lock&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; arch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;gradle_cache_key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;gradle_cache_key&lt;/span&gt; jars&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;gradle/wrapper/gradle&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;wrapper.properties&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;build.gradle&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;app/build.gradle&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;restore_gems_cache_android&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;restore_gems_cache_android&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*gems_cache_key_android&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;save_gems_cache_android&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;save_gems_cache_android&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;save_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*gems_cache_key_android&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ../vendor/bundle
+
+  &lt;span class=&quot;token key atrule&quot;&gt;restore_gradle_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;restore_gradle_cache&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*gradle_cache_key&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;save_gradle_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;save_gradle_cache&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;save_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*gradle_cache_key&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ~/.gradle
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; ~/.m2
+
+  &lt;span class=&quot;token key atrule&quot;&gt;android_dependencies&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;android_dependencies&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Download Android Dependencies
+      &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ./gradlew androidDependencies
+&lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;deploy_android&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;working_directory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/project/android
+    &lt;span class=&quot;token key atrule&quot;&gt;docker&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; circleci/android&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;api&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;28&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;node8&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;alpha
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;checkout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/project
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;attach_workspace&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/project
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*restore_gradle_cache&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*android_dependencies&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*save_gradle_cache&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*restore_gems_cache_android&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; bundle install
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*save_gems_cache_android&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*decode_android_key&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*create_google_play_key&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Build and deploy android APK
+          &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; bundle exec fastlane deploy
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;store_artifacts&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; app/build/outputs/apk/
+          &lt;span class=&quot;token key atrule&quot;&gt;destination&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; /apk/&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The deploy job reuses the workspace we created in &lt;a href=&quot;../Automate-React-Native-Deployment-Part-1/&quot;&gt;part 1&lt;/a&gt;, rather than re-installing node modules. Android gradle dependencies and ruby gems are given their own caches for faster subsequent builds. The key creation references are used once dependencies are installed.&lt;/p&gt;
+&lt;p&gt;Finally, it’s time to build and deploy the Android app using fastlane.&lt;/p&gt;
+&lt;h4&gt;Deploying the Android app using fastlane&lt;/h4&gt;
+&lt;p&gt;Here’s an example fastlane config for Android.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# android/fastlane/Fastfile&lt;/span&gt;
+desc &lt;span class=&quot;token string&quot;&gt;&quot;Build the Android app&quot;&lt;/span&gt;
+lane &lt;span class=&quot;token symbol&quot;&gt;:assemble_build&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  properties &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;android.injected.signing.store.file&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;release-key.keystore&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;android.injected.signing.store.password&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;ANDROID_STORE_PASSWORD&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;android.injected.signing.key.alias&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;ANDROID_KEY_ALIAS&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;android.injected.signing.key.password&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;ANDROID_STORE_PASSWORD&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  gradle&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;task&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;assemble&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; build_type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Release&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; properties&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; properties&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+desc &lt;span class=&quot;token string&quot;&gt;&quot;Build and deploy to Google Play&quot;&lt;/span&gt;
+lane &lt;span class=&quot;token symbol&quot;&gt;:deploy&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  assemble_build
+  &lt;span class=&quot;token comment&quot;&gt;# Can be changed to another track (e.g. &apos;beta&apos;)&lt;/span&gt;
+  upload_to_play_store&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;track&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;alpha&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The environment is already set up for this to work. You can change the track to any track you like, but I usually start with alpha on a new project and then later upload directly to the beta track once the app is more mature. Test the build with &lt;code&gt;bundle exec fastlane assemble_build&lt;/code&gt; from the &lt;code&gt;android/&lt;/code&gt; folder.&lt;/p&gt;
+&lt;h3&gt;iOS&lt;/h3&gt;
+&lt;p&gt;First, here’s the config for Circle. Replace &lt;code&gt;$PROJECTNAME&lt;/code&gt; with your project name.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# The node module cache for macos machines must&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# be separate from the other node module cache&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# because the home directory differs.&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;restore_yarn_cache_macos&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;restore_yarn_cache_macos&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# when lock file changes, use increasingly general patterns to restore cache&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;macos&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v4&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .Branch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;yarn.lock&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;macos&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v4&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .Branch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;macos&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v4&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;save_yarn_cache_macos&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;save_yarn_cache_macos&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;save_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; node_modules/
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; yarn&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;packages&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;macos&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v4&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; .Branch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;yarn.lock&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;token key atrule&quot;&gt;gems_cache_key_ios&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;gems_cache_key_ios&lt;/span&gt; ios&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;bundle&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;v1&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; checksum &quot;Gemfile.lock&quot; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; arch &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;restore_gems_cache_ios&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;restore_gems_cache_ios&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;restore_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*gems_cache_key_ios&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;save_gems_cache_ios&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;&amp;amp;save_gems_cache_ios&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;save_cache&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*gems_cache_key_ios&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; vendor/bundle
+&lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;deploy_ios&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;macos&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;xcode&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;10.1.0&apos;&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;working_directory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ~/project
+    &lt;span class=&quot;token key atrule&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;FL_OUTPUT_DIR&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; output
+    &lt;span class=&quot;token key atrule&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; /bin/bash &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;login &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;o pipefail
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; checkout
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*restore_yarn_cache_macos&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; yarn &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;frozen&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;lockfile
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*save_yarn_cache_macos&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*restore_gems_cache_ios&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; bundle install
+          &lt;span class=&quot;token key atrule&quot;&gt;working_directory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ios
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token important&quot;&gt;*save_gems_cache_ios&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Build and deploy iOS ipa
+          &lt;span class=&quot;token key atrule&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; bundle exec fastlane deploy
+          &lt;span class=&quot;token key atrule&quot;&gt;working_directory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ios
+          &lt;span class=&quot;token key atrule&quot;&gt;no_output_timeout&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 10m
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;store_artifacts&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ios/output/gym/$PROJECTNAME.ipa
+          &lt;span class=&quot;token key atrule&quot;&gt;destination&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; /$PROJECTNAME.ipa&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We can’t re-use the workspace created in the &lt;code&gt;verify&lt;/code&gt; job. This is a limitation of building the iOS app on Circle CI and one reason why iOS takes a little longer than Android. Fortunately, we &lt;em&gt;can&lt;/em&gt; still cache the node modules so it’s not a total loss.&lt;/p&gt;
+&lt;p&gt;Double check that the XCode version is the one you want.&lt;/p&gt;
+&lt;h4&gt;iOS code signing&lt;/h4&gt;
+&lt;p&gt;The pain point for iOS is going to be code signing. It’s pretty much always the pain point for iOS no matter how you deploy. Circle CI has decent docs for &lt;a href=&quot;https://circleci.com/docs/2.0/ios-codesigning&quot;&gt;setting up code signing for iOS projects&lt;/a&gt; so I won’t duplicate that here. It will take some time to set up and likely require some trial and error, so be patient and don’t get discouraged. You’ll be setting up fastlane match and turning off Automatic Code Signing in XCode.&lt;/p&gt;
+&lt;p&gt;When you get code signing working (test with &lt;code&gt;fastlane assemble_build&lt;/code&gt; locally), don’t forget to set these environment variables in Circle CI: &lt;code&gt;FASTLANE_USER&lt;/code&gt;, &lt;code&gt;FASTLANE_PASSWORD&lt;/code&gt;, and &lt;code&gt;MATCH_PASSWORD&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;Deploying the iOS app using fastlane&lt;/h4&gt;
+&lt;p&gt;Here’s an example fastlane config for iOS.&lt;/p&gt;
+&lt;p&gt;Replace &lt;code&gt;com.org_example.example&lt;/code&gt; with your project name and double check the name of the provisioning profile. Also replace &lt;code&gt;$PREFERRED_SCHEME&lt;/code&gt; with the right build scheme (this is usually just the project name). I’ve used &lt;code&gt;&quot;AppStore&quot;&lt;/code&gt; here.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# ios/fastlane/Fastfile&lt;/span&gt;
+desc &lt;span class=&quot;token string&quot;&gt;&quot;Push a new beta build to TestFlight&quot;&lt;/span&gt;
+before_all &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# Sets up fastlane match on Circle CI&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# for readonly code signing&lt;/span&gt;
+  setup_circle_ci
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+desc &lt;span class=&quot;token string&quot;&gt;&quot;Build the iOS app&quot;&lt;/span&gt;
+lane &lt;span class=&quot;token symbol&quot;&gt;:assemble_build&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  match&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;type&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;appstore&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  gym&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    scheme&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;$PREFERRED_SCHEME&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    export_method&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;app-store&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    export_options&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      provisioningProfiles&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token string&quot;&gt;&quot;com.org_example.example&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;match AppStore com.org_example.example&quot;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+desc &lt;span class=&quot;token string&quot;&gt;&quot;Build and deploy to TestFlight&quot;&lt;/span&gt;
+lane &lt;span class=&quot;token symbol&quot;&gt;:deploy&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
+  assemble_build
+  upload_to_testflight
+  &lt;span class=&quot;token comment&quot;&gt;# Includes the git tag commit message,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;# which has all the release notes&lt;/span&gt;
+  slack&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;message&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;App successfully released!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Slack notification&lt;/h4&gt;
+&lt;p&gt;We’re using the iOS Fastfile to send the Slack notification. This is because iOS will always take longer to complete than Android due to the nature of iOS deployments. You could post a notification for both, but I just post one when both are done and assume iOS will take longer.&lt;/p&gt;
+&lt;p&gt;Why is it safe to assume that? App Store Connect processes the app before allowing the app to be tested in TestFlight. You can opt to skip waiting for processing in fastlane, but then fastlane can’t notify the testers for you. The app isn’t usable in Testflight until processing is completed anyway, so I suggest waiting.&lt;/p&gt;
+&lt;p&gt;Have a look at the &lt;a href=&quot;https://docs.fastlane.tools/actions/slack/#slack&quot;&gt;slack action docs&lt;/a&gt;. Create the webhook on Slack’s website and add that URL to the Circle CI Environment as &lt;code&gt;SLACK_URL&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you don’t need the slack notification, you only need to remove that line in the iOS Fastfile.&lt;/p&gt;
+&lt;h3&gt;Putting it all together&lt;/h3&gt;
+&lt;p&gt;We’ve covered a lot, and it doesn’t all work yet. The final piece is to set up the workflow in Circle’s &lt;code&gt;config.yml&lt;/code&gt; so things actually get trigged after pushing to GitHub. Here we go:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;workflows&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;deploy&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;verify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# This job runs on all branches&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# and for all tags&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;filters&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token key atrule&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+              &lt;span class=&quot;token key atrule&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; /\d+\.\d+\.\d+/
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;deploy_android&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;requires&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; verify
+          &lt;span class=&quot;token comment&quot;&gt;# This job runs on the&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# deploy-android branch&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# and for tags&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;filters&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token key atrule&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+              &lt;span class=&quot;token key atrule&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; deploy&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;android
+            &lt;span class=&quot;token key atrule&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+              &lt;span class=&quot;token key atrule&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; /\d+\.\d+\.\d+/
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;deploy_ios&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;requires&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; verify
+          &lt;span class=&quot;token comment&quot;&gt;# This job runs on the&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# deploy-ios branch&lt;/span&gt;
+          &lt;span class=&quot;token comment&quot;&gt;# and for tags&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;filters&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token key atrule&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+              &lt;span class=&quot;token key atrule&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; deploy&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;ios
+            &lt;span class=&quot;token key atrule&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+              &lt;span class=&quot;token key atrule&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; /\d+\.\d+\.\d+/&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I’ve found it useful to have separate branches for deploying either android or ios on its own in case of errors. For instance, say android failed but iOS succeeded. You can keep pushing commits to &lt;code&gt;deploy-android&lt;/code&gt; until it succeeds without changing anything else. I expect this will happen for you a few times in the beginning, but should happen less and less with experience as you work out the kinks.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Congratulations! If you’ve made it this far, you have a robust, single-command deployment process from commit to app store. TestFlight and Google Play have updated versions, GitHub has the release notes, Slack has been notified. All with one command: &lt;code&gt;yarn release&lt;/code&gt; or &lt;code&gt;npm run release&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;With this setup, the deployment for my most recent app takes about 8 minutes &lt;sup&gt;&lt;a href=&quot;#notes&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; from the time I run the command to both apps being available in the app stores. Your deployment time may vary depending on package size, but I suspect this will be an improvement over your current workflow.&lt;/p&gt;
+&lt;p&gt;If you have questions or suggestions on how this workflow could be improved, I’m available on &lt;a href=&quot;https://twitter.com/timmywil&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Thanks for reading.&lt;/p&gt;
+&lt;p&gt;&lt;a name=&quot;notes&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Notes&lt;/summary&gt;
+&lt;style&gt;small, small code { font-size: 80%; line-height: 1; }&lt;/style&gt;
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;1&lt;/strong&gt;:
+&lt;code&gt;bundler&lt;/code&gt; will already exist in the Circle CI images, so we won’t have to worry about installing it there, but the default version in Circle CI images is 1.x. We install a 1.x version of &lt;code&gt;bundler&lt;/code&gt; in the project so we don’t have to struggle through updating &lt;code&gt;bundler&lt;/code&gt; in the Circle CI images.
+&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;&lt;strong&gt;2&lt;/strong&gt;:
+This is measured by adding the &lt;code&gt;yarn&lt;/code&gt; command time to the measured times in Circle CI and is an approximated average. I sometimes get deployments that take 6 minutes and sometimes 10 minutes, mostly depending on whether dependencies have changed. By the way, the most impactful change I’ve made to keep deployments fast is committing &lt;code&gt;Pods&lt;/code&gt; to source control. I know it feels wrong at first, but the &lt;a href=&quot;https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control&quot;&gt;cocoapods creators recommend it&lt;/a&gt; and it makes things simple. Trust me, it cut my iOS build times in half.
+&lt;/small&gt;&lt;/p&gt;
+&lt;/details&gt;</content:encoded></item><item><title><![CDATA[Automate React Native Deployment - Part 1]]></title><description><![CDATA[I’m a fan of React Native. It allows me to build native mobile apps using JavaScript. That’s no small feat, but no tool is perfect. React…]]></description><link>https://timmywil.com//blog/Automate-React-Native-Deployment-Part-1/</link><guid isPermaLink="false">https://timmywil.com//blog/Automate-React-Native-Deployment-Part-1/</guid><pubDate>Mon, 06 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I’m a fan of React Native. It allows me to build native mobile apps using JavaScript. That’s no small feat, but no tool is perfect. React Native has its frustrating quirks and time-consuming challenges, as any library as heavy as React Native might. Automating deployment has been one of those challenges. I’ve fiddled with deployment processes across several projects over the years and I was never really satisfied with the results. It took many iterations: adding new tools, removing stale ones, using old tools in new ways, but I recently realized that I reached my goal.&lt;/p&gt;
 &lt;p&gt;I should point out that I didn’t create some silver bullet to the deployment problem. I am simply using existing tools in intended, documented ways. Look at any individual piece, and there’s nothing original. What I believe is special, and what I am excited to share, is the way the tools are combined to form a seamless, single-command, automated deployment process from commit to app store.&lt;/p&gt;
 &lt;p&gt;Part 1 will establish some project assumptions that are required for this process to work, and then walk through the first half of the setup. This is meant to be an example of what is possible. Some of these tools have alternatives that would be relatively easy to swap–such as Circle CI with pretty much any other CI–but I’m going to stick with what I used and maybe you can take it from there.&lt;/p&gt;
 &lt;p&gt;To see everything put together, check out &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;the working example repo with all code samples&lt;/a&gt;.&lt;/p&gt;
