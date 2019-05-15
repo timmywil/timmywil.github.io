@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Write more, build more]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Wed, 15 May 2019 02:18:40 GMT</lastBuildDate><item><title><![CDATA[Automate React Native Deployment - Part 2]]></title><description><![CDATA[In  part 1 , we discussed how to set up  semantic-release  and  react-native-version . That covers the first part of the deployment flow…]]></description><link>https://timmywil.com//blog/Automate-React-Native-Deployment-Part-2/</link><guid isPermaLink="false">https://timmywil.com//blog/Automate-React-Native-Deployment-Part-2/</guid><pubDate>Wed, 15 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In &lt;a href=&quot;../Automate-React-Native-Deployment-Part-1/&quot;&gt;part 1&lt;/a&gt;, we discussed how to set up &lt;a href=&quot;https://github.com/semantic-release/semantic-release&quot;&gt;semantic-release&lt;/a&gt; and &lt;a href=&quot;https://github.com/stovmascript/react-native-version&quot;&gt;react-native-version&lt;/a&gt;. That covers the first part of the deployment flow from commit to GitHub. In this post, we’ll take a look at the configs for verification and deployment. The CI configs shared in this post are for Circle CI, but the workflow can be applied to any CI. A working example repo can be found &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;here&lt;/a&gt;. Here’s what we’ll cover:&lt;/p&gt;
-&lt;p&gt;
-  &lt;a
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Write more, build more]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Wed, 15 May 2019 13:54:07 GMT</lastBuildDate><item><title><![CDATA[Automate React Native Deployment - Part 2]]></title><description><![CDATA[In part 1, we discussed how to set up semantic-release and react-native-version. That covers the first part of the deployment flow from…]]></description><link>https://timmywil.com//blog/Automate-React-Native-Deployment-Part-2/</link><guid isPermaLink="false">https://timmywil.com//blog/Automate-React-Native-Deployment-Part-2/</guid><pubDate>Wed, 15 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In &lt;a href=&quot;../Automate-React-Native-Deployment-Part-1/&quot;&gt;part 1&lt;/a&gt;, we discussed how to set up &lt;a href=&quot;https://github.com/semantic-release/semantic-release&quot;&gt;semantic-release&lt;/a&gt; and &lt;a href=&quot;https://github.com/stovmascript/react-native-version&quot;&gt;react-native-version&lt;/a&gt;. That covers the first part of the deployment flow from commit to GitHub. In this post, we’ll take a look at the configs for verification and deployment. The CI configs shared in this post are for Circle CI, but the workflow can be applied to any CI. A working example repo can be found &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;here&lt;/a&gt;. Here’s what we’ll cover:&lt;/p&gt;
+&lt;p&gt;&lt;a
     class=&quot;gatsby-resp-image-link&quot;
     href=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/ad7af/rn-deployment-diagram-part-2.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
   &gt;
-  
-  &lt;span
+    &lt;span
     class=&quot;gatsby-resp-image-wrapper&quot;
-    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+    style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
       style=&quot;padding-bottom: 79.45900253592562%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsSAAALEgHS3X78AAADCUlEQVQ4y42UWU+TURCG35ayby4gASNoa1vcBUG2ihUNm8iORIkia2kRKIuCiFwIsimLBGSVVU1EURFJvDbRf6D4L4zEWxhnPmviRWM4yZM535xzJvO9M+egEO05RegsKEJHfhG6cjPQUJyEspqr6M6+ivviZzpzY5AVAmC/Cmod22DGlVHhzxCrYdQox2OqxhRZMUF17k+p3nuGGnxnFcRXjUm2Y3QJ9lQJ5A4vPdto5jCjZY4xOsdcBxsfqsci1WKO2gKXqEv/jrqNK9Rz6D3VYZ7sWFDW8nEnhQ+4e2OHZHeKiWcMjImJZQKVXK+jZ6kcQ2/KMLhcyhTj4btr6F0twcCy+BheG3iVhOIo3n7UBRqxkcxx5iQTzpxg4hgPZKAmJhuNpiw0mLJxO+4cbiSfRnZ+DlpiMlHP/kZTJuzxZlzzkQSCoP2rGxw6ahy4OTQcIpui0zjd1ExSrccUM61Y8YkkVXhCObh1gQ/4e8A7TIrD7IazIYdEpxrMUtuel/SANew7vkqdB9+ydrOKjrWYIf6LdN6u18DtDFuz/L7TgMXo/cSV/sKZfhZYM+FLmeNbKEX/5zy0iE7gouyQTBkvpwGTUaFLV1uNZpQaz8N68AhSI0MRbTbDpj2LEmMarMYUVBpSYXXDdgZXcLOK+8zuN01NATPUGrZI7frn1Bq6QHbfKUW/SoyIhkm83deh4b7/aih91uS5SH0nVqk/ao2GTR9pIHqNWna+UHQUDbniF3n7IdZQ+i9R5k4Dsj5fOYt1C0bX7+mfrTeHzK03Bc0o1uY69k38FRj+XoC70n9qT/gGOprY32nAeBRoE3HFkIDLhnBk6rRIiAjGMXMECg/EIs+QqFLW9CYUum5LwxI8+sFZbFhUIz8tqlFmZMPiMvJL5qzdTwvDXbCRi2ZpF08P+Ox1PA67nAYUwavBBfGbp76oFYWO8Nc0aPpAzQGLStPLA8Eapsk1+6cPjU4Dcp9t8qEtLs6WTTWxxbdlq1o9oWDDOK9NbEql89EqVXbjPgxSbiAQ4Czebz8yLN+SwV+iAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
-    &gt;
-      &lt;img
+    &gt;&lt;/span&gt;
+    &lt;img
         class=&quot;gatsby-resp-image-image&quot;
-        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;box-shadow:inset 0px 0px 0px 400px white;&quot;
         alt=&quot;Automate React Native Deployment Part 2&quot;
         title=&quot;&quot;
         src=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/b9e4f/rn-deployment-diagram-part-2.png&quot;
@@ -30,11 +28,8 @@
 /static/b7984e2cf2d593c71355813caad6cfbd/ad7af/rn-deployment-diagram-part-2.png 1183w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
       /&gt;
-    &lt;/span&gt;
   &lt;/span&gt;
-  
-  &lt;/a&gt;
-    &lt;/p&gt;
+  &lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Disclaimer: this might be hard to set up from scratch. It will be easier for those with existing projects to migrate to this workflow and make changes where things are different.&lt;/em&gt;&lt;/p&gt;
 &lt;h2&gt;Verification&lt;/h2&gt;
 &lt;p&gt;The purpose of this verification step is to run some sanity checks, not to run the full test suite. That should already have been done using the same package on the previous commit. The only changes to the package should be the version number edits, so we run some simple linting checks and perhaps the unit tests.&lt;/p&gt;
@@ -111,26 +106,24 @@ gem &lt;span class=&quot;token string&quot;&gt;&quot;fastlane&quot;&lt;/span&gt;
 &lt;p&gt;Add &lt;code&gt;vendor/&lt;/code&gt; to your &lt;code&gt;.gitignore&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Now run &lt;code&gt;bundle exec fastlane init&lt;/code&gt; in both the &lt;code&gt;ios/&lt;/code&gt; and &lt;code&gt;android/&lt;/code&gt; folders. Using the manual setup option will allow you skip some steps and just get the necessary files in place. We’ll be editing the &lt;code&gt;Fastfile&lt;/code&gt; in each folder.&lt;/p&gt;
 &lt;h3&gt;Circle CI environment variables&lt;/h3&gt;
-&lt;p&gt;
-  &lt;a
+&lt;p&gt;&lt;a
     class=&quot;gatsby-resp-image-link&quot;
     href=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/b25e2/circle-env-vars.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
   &gt;
-  
-  &lt;span
+    &lt;span
     class=&quot;gatsby-resp-image-wrapper&quot;
-    style=&quot;position: relative; display: block;  max-width: 528px; margin-left: auto; margin-right: auto;&quot;
+    style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 528px;&quot;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
       style=&quot;padding-bottom: 57.00757575757576%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABgklEQVQoz3VSiarCMBDM//+dICI+fZS29j5s7ZGmx7ydYKCob2HY7ZHJzO4qrUdkaYK6rpBlGZIkwbZtYDC7el1X5Hlu/ymKwmY+s+aZOI7Rti2UmWeUTYtH12EYBvR9/0Ho4Ps+TqcTLpcLjscjzuczbrcbDoeDBcnVvG6oJ4PWzNjHnpSxLAvGccQ0TdBa2+xqY4wFxSizrKjHCcWg0WpDhg9ljpAOSEoS5veaF6hVDgxCSkz/WHWEVHC/3y3CMEQURbZ31+vV1p7niWWR2rUN+ucTTV1jlYPfgoRUwAs4oP2FfHZQ1eMBLwgRxonNef1A0/Xoxd7wBtpK09ROl9mBit07lRYl/KyAl+YI8gK/SYqfKEEu76uyRPlCVVWYZSO4GrTuVskppAN+V6NMuOwHVIJclLHmKtH6sgPtMlMJ946knaxa0zR4SrscuQwF6GQg/Wsw7TRjeQ3ivYdUQLVuKMxBENhL+N320O6X9EezRwJ8mTSDZM4yCUjMzLXZ//8HbRRSBgOJXb8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
-    &gt;
-      &lt;img
+    &gt;&lt;/span&gt;
+    &lt;img
         class=&quot;gatsby-resp-image-image&quot;
-        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;box-shadow:inset 0px 0px 0px 400px white;&quot;
         alt=&quot;Circle CI Environment Variables&quot;
         title=&quot;&quot;
         src=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/b25e2/circle-env-vars.png&quot;
@@ -139,11 +132,8 @@ gem &lt;span class=&quot;token string&quot;&gt;&quot;fastlane&quot;&lt;/span&gt;
 /static/1dbd4a571be76417686ea443f3d1f62c/b25e2/circle-env-vars.png 528w&quot;
         sizes=&quot;(max-width: 528px) 100vw, 528px&quot;
       /&gt;
-    &lt;/span&gt;
   &lt;/span&gt;
-  
-  &lt;/a&gt;
-    &lt;/p&gt;
+  &lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Here are all of the Circle CI environment variables that we’ll be setting:&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Used to upload to the Google Play Store&lt;/span&gt;
 GOOGLE_PLAY_CREDS_JSON
@@ -353,7 +343,8 @@ lane &lt;span class=&quot;token symbol&quot;&gt;:deploy&lt;/span&gt; &lt;span cl
 &lt;p&gt;When you get code signing working (test with &lt;code&gt;fastlane assemble_build&lt;/code&gt; locally), don’t forget to set these environment variables in Circle CI: &lt;code&gt;FASTLANE_USER&lt;/code&gt;, &lt;code&gt;FASTLANE_PASSWORD&lt;/code&gt;, and &lt;code&gt;MATCH_PASSWORD&lt;/code&gt;.&lt;/p&gt;
 &lt;h4&gt;Deploying the iOS app using fastlane&lt;/h4&gt;
 &lt;p&gt;Here’s an example fastlane config for iOS.&lt;/p&gt;
-&lt;p&gt;Replace &lt;code&gt;com.org_example.example&lt;/code&gt; with your project name and double check the name of the provisioning profile. Also replace &lt;code&gt;$PREFERRED_SCHEME&lt;/code&gt; with the right build scheme (this is usually just the project name). I’ve used &lt;code&gt;&quot;AppStore&quot;&lt;/code&gt; here.&lt;/p&gt;
+&lt;p&gt;Replace &lt;code&gt;com.org_example.example&lt;/code&gt; with your project name and double check the name of the provisioning profile. I’ve used &lt;code&gt;&quot;AppStore&quot;&lt;/code&gt; here.&lt;/p&gt;
+&lt;p&gt;Also replace &lt;code&gt;$PREFERRED_SCHEME&lt;/code&gt; with the right build scheme (this is usually just the project name).&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;ruby&quot;&gt;&lt;pre class=&quot;language-ruby&quot;&gt;&lt;code class=&quot;language-ruby&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# ios/fastlane/Fastfile&lt;/span&gt;
 desc &lt;span class=&quot;token string&quot;&gt;&quot;Push a new beta build to TestFlight&quot;&lt;/span&gt;
 before_all &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt;
@@ -450,26 +441,24 @@ This time is measured by adding the &lt;code&gt;yarn&lt;/code&gt; command time t
 &lt;p&gt;To see everything put together, check out &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;the working example repo with all code samples&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Bird’s eye view&lt;/h2&gt;
 &lt;p&gt;When this series is complete, you should have a working deployment flow that runs with one command: &lt;code&gt;yarn release&lt;/code&gt; (or &lt;code&gt;npm run release&lt;/code&gt;). Here’s an overview of the whole process:&lt;/p&gt;
-&lt;p&gt;
-  &lt;a
+&lt;p&gt;&lt;a
     class=&quot;gatsby-resp-image-link&quot;
     href=&quot;/static/609085edace92364601c3dae405e83be/d02d5/rn-deployment-diagram.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
   &gt;
-  
-  &lt;span
+    &lt;span
     class=&quot;gatsby-resp-image-wrapper&quot;
-    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+    style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
   &gt;
     &lt;span
       class=&quot;gatsby-resp-image-background-image&quot;
       style=&quot;padding-bottom: 170.3056768558952%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
-    &gt;
-      &lt;img
+    &gt;&lt;/span&gt;
+    &lt;img
         class=&quot;gatsby-resp-image-image&quot;
-        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;box-shadow:inset 0px 0px 0px 400px white;&quot;
         alt=&quot;React Native Automated Deployment&quot;
         title=&quot;&quot;
         src=&quot;/static/609085edace92364601c3dae405e83be/b9e4f/rn-deployment-diagram.png&quot;
@@ -481,11 +470,8 @@ This time is measured by adding the &lt;code&gt;yarn&lt;/code&gt; command time t
 /static/609085edace92364601c3dae405e83be/d02d5/rn-deployment-diagram.png 1374w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
       /&gt;
-    &lt;/span&gt;
   &lt;/span&gt;
-  
-  &lt;/a&gt;
-    &lt;/p&gt;
+  &lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Note: e2e testing is not part of this flow. It assumes the previous commit has already passed all tests. Setting up testing for supported devices in CI is another beast. I may share that in a later post.&lt;/em&gt;&lt;/p&gt;
 &lt;h3&gt;You know what happens when you assume&lt;/h3&gt;
 &lt;p&gt;This workflow assumes some things about the project. It assumes you have a project structure similar to mine. That is, similar to the one generated by &lt;code&gt;react-native init&lt;/code&gt;. Most of this should work in an expo project, but I haven’t used expo that much so I can’t say for sure.&lt;/p&gt;
