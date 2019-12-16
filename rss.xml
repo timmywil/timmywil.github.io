@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Timmy Willison's Blog RSS]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 Dec 2019 16:13:40 GMT</lastBuildDate><item><title><![CDATA[Automate React Native Deployment - Part 2]]></title><description><![CDATA[In part 1, we discussed how to set up semantic-release and react-native-version. That covers the first part of the deployment flow from…]]></description><link>https://timmywil.com/blog/Automate-React-Native-Deployment-Part-2/</link><guid isPermaLink="false">https://timmywil.com/blog/Automate-React-Native-Deployment-Part-2/</guid><pubDate>Wed, 15 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In &lt;a href=&quot;../Automate-React-Native-Deployment-Part-1/&quot;&gt;part 1&lt;/a&gt;, we discussed how to set up &lt;a href=&quot;https://github.com/semantic-release/semantic-release&quot;&gt;semantic-release&lt;/a&gt; and &lt;a href=&quot;https://github.com/stovmascript/react-native-version&quot;&gt;react-native-version&lt;/a&gt;. That covers the first part of the deployment flow from commit to GitHub. In this post, we’ll take a look at the configs for verification and deployment. The CI configs shared in this post are for Circle CI, but the workflow can be applied to any CI. A working example repo can be found &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;here&lt;/a&gt;. Here’s what we’ll cover:&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Timmy Willison's Blog RSS]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 16 Dec 2019 16:46:12 GMT</lastBuildDate><item><title><![CDATA[Panzoom 4.0: jquery.panzoom without the jquery.]]></title><description><![CDATA[Panzoom 4.0 is a complete rewrite of my old jquery.panzoom plugin that removes the jQuery dependency and makes it a universal library]]></description><link>https://timmywil.com/blog/Panzoom-4.0:-jquery.panzoom-without-the-jquery./</link><guid isPermaLink="false">https://timmywil.com/blog/Panzoom-4.0:-jquery.panzoom-without-the-jquery./</guid><pubDate>Mon, 16 Dec 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/timmywil/panzoom&quot;&gt;Panzoom&lt;/a&gt; is a small JavaScript library for panning and zooming HTML and SVG elements using CSS. This rewrite has been in the works for a long time, so I’m proud to introduce Panzoom 4.0!&lt;/p&gt;
+&lt;h2&gt;Rewrite highlights&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Completely removed the jQuery dependency. Panzoom 4.0 has no dependencies and is even smaller than before (about 3.5kb gzipped).&lt;/li&gt;
+&lt;li&gt;Panzoom now supports Pointer Events wherever available, falling back to mouse and touch events. Panning, pinch zooming, and focal point zooming have first-class support.&lt;/li&gt;
+&lt;li&gt;Rather than passing callbacks or using jQuery events, the new Panzoom triggers native events. For instance, listen to the &lt;code&gt;panzoomend&lt;/code&gt; event with &lt;code&gt;elem.addEventListener(&apos;panzoomend&apos;, ...)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Panzoom has been rewritten in TypeScript. Types are included with the package.&lt;/li&gt;
+&lt;li&gt;Documentation is now generated from TypeScript types and a custom script concatenates it all into the README.&lt;/li&gt;
+&lt;li&gt;Panzoom no longer uses complicated matrix calculations internally and instead relies on what browser implementors have already built. This allowed me to remove a lot of code. Customizing the transform is easy with the new &lt;code&gt;setTransform&lt;/code&gt; option.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;How is this different from other panning and/or zooming libraries?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Many libraries use JavaScript animations rather than CSS transitions.&lt;/li&gt;
+&lt;li&gt;Panzoom supports Pointer Events and treats them as first-class where supported. Even pinch zooming with pointer events on mobile devices is supported!&lt;/li&gt;
+&lt;li&gt;Panzoom relies on the native event API for events rather than redefining an event system using callbacks (i.e. &lt;code&gt;elem.addEventListener(&apos;panzoomend&apos;, ...)&lt;/code&gt; instead of &lt;code&gt;Panzoom(elem, { onPanzoomEnd: fn }))&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Panzoom defines TypeScript types. Many libraries are written in JS and have no types.&lt;/li&gt;
+&lt;li&gt;Panzoom is tiny (3.5kb gzipped). There are powerful libraries that support things like focal point zooming, but those libraries are often significantly larger.&lt;/li&gt;
+&lt;li&gt;Panzoom supports SVG, which is not necessarily uncommon, but because it uses CSS transforms (and only supports modern browsers), SVG follows the same codepath as HTML. This also helps Panzoom stay small.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Try it out&lt;/h2&gt;
+&lt;p&gt;Install Panzoom using &lt;code&gt;yarn&lt;/code&gt; or &lt;code&gt;npm&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;yarn&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; @panzoom/panzoom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;or&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; @panzoom/panzoom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Check out the demo here: &lt;a href=&quot;https://timmywil.com/panzoom/demo/&quot;&gt;https://timmywil.com/panzoom/demo/&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Automate React Native Deployment - Part 2]]></title><description><![CDATA[In part 1, we discussed how to set up semantic-release and react-native-version. That covers the first part of the deployment flow from…]]></description><link>https://timmywil.com/blog/Automate-React-Native-Deployment-Part-2/</link><guid isPermaLink="false">https://timmywil.com/blog/Automate-React-Native-Deployment-Part-2/</guid><pubDate>Wed, 15 May 2019 09:00:00 GMT</pubDate><content:encoded>&lt;p&gt;In &lt;a href=&quot;../Automate-React-Native-Deployment-Part-1/&quot;&gt;part 1&lt;/a&gt;, we discussed how to set up &lt;a href=&quot;https://github.com/semantic-release/semantic-release&quot;&gt;semantic-release&lt;/a&gt; and &lt;a href=&quot;https://github.com/stovmascript/react-native-version&quot;&gt;react-native-version&lt;/a&gt;. That covers the first part of the deployment flow from commit to GitHub. In this post, we’ll take a look at the configs for verification and deployment. The CI configs shared in this post are for Circle CI, but the workflow can be applied to any CI. A working example repo can be found &lt;a href=&quot;https://github.com/timmywil/react-native-deployment-example&quot;&gt;here&lt;/a&gt;. Here’s what we’ll cover:&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
@@ -26,6 +50,7 @@
 /static/b7984e2cf2d593c71355813caad6cfbd/ae92f/rn-deployment-diagram-part-2.png 1180w,
 /static/b7984e2cf2d593c71355813caad6cfbd/16dd1/rn-deployment-diagram-part-2.png 1183w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
       /&gt;
   &lt;/a&gt;
@@ -130,6 +155,7 @@ gem &lt;span class=&quot;token string&quot;&gt;&quot;fastlane&quot;&lt;/span&gt;
 /static/1dbd4a571be76417686ea443f3d1f62c/0b23c/circle-env-vars.png 295w,
 /static/1dbd4a571be76417686ea443f3d1f62c/2342d/circle-env-vars.png 528w&quot;
         sizes=&quot;(max-width: 528px) 100vw, 528px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
       /&gt;
   &lt;/a&gt;
@@ -468,6 +494,7 @@ This time is measured by adding the &lt;code&gt;yarn&lt;/code&gt; command time t
 /static/609085edace92364601c3dae405e83be/ae92f/rn-deployment-diagram.png 1180w,
 /static/609085edace92364601c3dae405e83be/8a896/rn-deployment-diagram.png 1374w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
       /&gt;
   &lt;/a&gt;
