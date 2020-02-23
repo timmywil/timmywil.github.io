@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Timmy Willison's Blog RSS]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 16 Dec 2019 19:05:25 GMT</lastBuildDate><item><title><![CDATA[Panzoom 4.0: jquery.panzoom without the jquery.]]></title><description><![CDATA[Panzoom 4.0 is a complete rewrite of my old jquery.panzoom plugin that removes the jQuery dependency and makes it a universal library]]></description><link>https://timmywil.com/blog/Panzoom-4.0:-jquery.panzoom-without-the-jquery./</link><guid isPermaLink="false">https://timmywil.com/blog/Panzoom-4.0:-jquery.panzoom-without-the-jquery./</guid><pubDate>Mon, 16 Dec 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/timmywil/panzoom&quot;&gt;Panzoom&lt;/a&gt; is a small JavaScript library for panning and zooming HTML and SVG elements using CSS. This rewrite has been in the works for a long time, so I’m proud to introduce Panzoom 4.0!&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Timmy Willison's Blog RSS]]></title><description><![CDATA[Personal blog and website for Timmy Willison]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 23 Feb 2020 15:30:01 GMT</lastBuildDate><item><title><![CDATA[Panzoom 4.0: jquery.panzoom without the jquery.]]></title><description><![CDATA[Panzoom 4.0 is a complete rewrite of my old jquery.panzoom plugin that removes the jQuery dependency and makes it a universal library]]></description><link>https://timmywil.com/blog/Panzoom-4.0:-jquery.panzoom-without-the-jquery./</link><guid isPermaLink="false">https://timmywil.com/blog/Panzoom-4.0:-jquery.panzoom-without-the-jquery./</guid><pubDate>Mon, 16 Dec 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/timmywil/panzoom&quot;&gt;Panzoom&lt;/a&gt; is a small JavaScript library for panning and zooming HTML and SVG elements using CSS. This rewrite has been in the works for a long time, so I’m proud to introduce Panzoom 4.0!&lt;/p&gt;
 &lt;h2&gt;Rewrite highlights&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;Completely removed the jQuery dependency. Panzoom 4.0 has no dependencies and is even smaller than before (about 3.5kb gzipped).&lt;/li&gt;
@@ -29,7 +29,7 @@
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/16dd1/rn-deployment-diagram-part-2.png&quot;
+    href=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/7798c/rn-deployment-diagram-part-2.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -42,13 +42,13 @@
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Automate React Native Deployment Part 2&quot;
         title=&quot;Automate React Native Deployment Part 2&quot;
-        src=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/799d3/rn-deployment-diagram-part-2.png&quot;
-        srcset=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/00d96/rn-deployment-diagram-part-2.png 148w,
-/static/b7984e2cf2d593c71355813caad6cfbd/0b23c/rn-deployment-diagram-part-2.png 295w,
-/static/b7984e2cf2d593c71355813caad6cfbd/799d3/rn-deployment-diagram-part-2.png 590w,
-/static/b7984e2cf2d593c71355813caad6cfbd/2a3d6/rn-deployment-diagram-part-2.png 885w,
-/static/b7984e2cf2d593c71355813caad6cfbd/ae92f/rn-deployment-diagram-part-2.png 1180w,
-/static/b7984e2cf2d593c71355813caad6cfbd/16dd1/rn-deployment-diagram-part-2.png 1183w&quot;
+        src=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/fcda8/rn-deployment-diagram-part-2.png&quot;
+        srcset=&quot;/static/b7984e2cf2d593c71355813caad6cfbd/12f09/rn-deployment-diagram-part-2.png 148w,
+/static/b7984e2cf2d593c71355813caad6cfbd/e4a3f/rn-deployment-diagram-part-2.png 295w,
+/static/b7984e2cf2d593c71355813caad6cfbd/fcda8/rn-deployment-diagram-part-2.png 590w,
+/static/b7984e2cf2d593c71355813caad6cfbd/efc66/rn-deployment-diagram-part-2.png 885w,
+/static/b7984e2cf2d593c71355813caad6cfbd/c83ae/rn-deployment-diagram-part-2.png 1180w,
+/static/b7984e2cf2d593c71355813caad6cfbd/7798c/rn-deployment-diagram-part-2.png 1183w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -137,7 +137,7 @@ gem &lt;span class=&quot;token string&quot;&gt;&quot;fastlane&quot;&lt;/span&gt;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/2342d/circle-env-vars.png&quot;
+    href=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/4af8e/circle-env-vars.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -150,10 +150,10 @@ gem &lt;span class=&quot;token string&quot;&gt;&quot;fastlane&quot;&lt;/span&gt;
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Circle CI Environment Variables&quot;
         title=&quot;Circle CI Environment Variables&quot;
-        src=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/2342d/circle-env-vars.png&quot;
-        srcset=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/00d96/circle-env-vars.png 148w,
-/static/1dbd4a571be76417686ea443f3d1f62c/0b23c/circle-env-vars.png 295w,
-/static/1dbd4a571be76417686ea443f3d1f62c/2342d/circle-env-vars.png 528w&quot;
+        src=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/4af8e/circle-env-vars.png&quot;
+        srcset=&quot;/static/1dbd4a571be76417686ea443f3d1f62c/12f09/circle-env-vars.png 148w,
+/static/1dbd4a571be76417686ea443f3d1f62c/e4a3f/circle-env-vars.png 295w,
+/static/1dbd4a571be76417686ea443f3d1f62c/4af8e/circle-env-vars.png 528w&quot;
         sizes=&quot;(max-width: 528px) 100vw, 528px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
@@ -473,7 +473,7 @@ This time is measured by adding the &lt;code&gt;yarn&lt;/code&gt; command time t
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/609085edace92364601c3dae405e83be/8a896/rn-deployment-diagram.png&quot;
+    href=&quot;/static/609085edace92364601c3dae405e83be/1dbe8/rn-deployment-diagram.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -486,13 +486,13 @@ This time is measured by adding the &lt;code&gt;yarn&lt;/code&gt; command time t
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;React Native Automated Deployment&quot;
         title=&quot;React Native Automated Deployment&quot;
-        src=&quot;/static/609085edace92364601c3dae405e83be/799d3/rn-deployment-diagram.png&quot;
-        srcset=&quot;/static/609085edace92364601c3dae405e83be/00d96/rn-deployment-diagram.png 148w,
-/static/609085edace92364601c3dae405e83be/0b23c/rn-deployment-diagram.png 295w,
-/static/609085edace92364601c3dae405e83be/799d3/rn-deployment-diagram.png 590w,
-/static/609085edace92364601c3dae405e83be/2a3d6/rn-deployment-diagram.png 885w,
-/static/609085edace92364601c3dae405e83be/ae92f/rn-deployment-diagram.png 1180w,
-/static/609085edace92364601c3dae405e83be/8a896/rn-deployment-diagram.png 1374w&quot;
+        src=&quot;/static/609085edace92364601c3dae405e83be/fcda8/rn-deployment-diagram.png&quot;
+        srcset=&quot;/static/609085edace92364601c3dae405e83be/12f09/rn-deployment-diagram.png 148w,
+/static/609085edace92364601c3dae405e83be/e4a3f/rn-deployment-diagram.png 295w,
+/static/609085edace92364601c3dae405e83be/fcda8/rn-deployment-diagram.png 590w,
+/static/609085edace92364601c3dae405e83be/efc66/rn-deployment-diagram.png 885w,
+/static/609085edace92364601c3dae405e83be/c83ae/rn-deployment-diagram.png 1180w,
+/static/609085edace92364601c3dae405e83be/1dbe8/rn-deployment-diagram.png 1374w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
