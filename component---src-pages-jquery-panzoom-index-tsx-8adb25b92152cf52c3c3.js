@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{nDv5:function(n,t,o){"use strict";o.r(t),o.d(t,"default",(function(){return e}));var c=o("q1tI"),i=o("qKvR");function e(){return Object(c.useEffect)((function(){window.location.href="https://timmywil.com/panzoom/"}),[]),Object(i.d)("div",null)}}}]);
+//# sourceMappingURL=component---src-pages-jquery-panzoom-index-tsx-8adb25b92152cf52c3c3.js.map
